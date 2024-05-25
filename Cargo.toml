@@ -1,0 +1,22 @@
+[package]
+name = "iorp_core"
+version = "20.12.14"
+authors = ["Root <indianoceanroleplay@gmail.com>"]
+edition = "2018"
+
+[lib]
+name = "iorp_core"
+crate-type = ["dylib"]
+
+[dependencies]
+log = "*"
+fern = "*"
+samp = {git="https://github.com/ZOTTCE/samp-rs/",branch="potential-fix",features = ["encoding"]}
+reqwest = { features = ["blocking", "json"] }
+regex = "*"
+voca_rs = "*"
+percent-encoding = "*"
+serde = "*"
+serde_derive = "*"
+chrono = "*"
+slab = "*"
