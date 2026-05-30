@@ -1,32 +1,19 @@
-FROM i386/ubuntu
+FROM ubuntu
 
-# Update default packages
-RUN apt-get update
+RUN dpkg --add-architecture i386 && \
+    apt-get update && \
+    apt-get install -y \
+        gcc-multilib \
+        g++-multilib \
+        libc6-dev-i386 \
+        curl \
+        pkg-config \
+        libssl-dev
 
-# Get Ubuntu packages
-RUN apt-get install -y \
-    build-essential \
-    curl \
-    pkg-config \
-    libssl-dev
-
-# Update new packages
-RUN apt-get update
-
-# Get Rust
-RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 ENV PATH="/root/.cargo/bin:${PATH}"
 
-RUN rustup toolchain install stable-i686-unknown-linux-gnu
-RUN rustup default stable-i686-unknown-linux-gnu
+RUN rustup target add i686-unknown-linux-gnu
 
-# Copy app
-WORKDIR /app
-COPY . .
-
-# build app
-RUN cargo build --release
-
-# Copy lib into root
-RUN cp target/release/libiorp_core.so iorp_core.so
+WORKDIR /workspace

@@ -10,7 +10,7 @@ use std::io;
 use std::sync::{Arc, Mutex};
 
 mod alexa;
-mod email;
+mod http;
 mod ip_info;
 mod math;
 mod native_string;

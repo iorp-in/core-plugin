@@ -12,7 +12,7 @@ crate-type = ["dylib"]
 log = "*"
 fern = "*"
 samp = {git="https://github.com/ZOTTCE/samp-rs/",branch="potential-fix",features = ["encoding"]}
-reqwest = { features = ["blocking", "json"] }
+reqwest = { version = "*", features = ["blocking", "json"] }
 regex = "*"
 voca_rs = "*"
 percent-encoding = "*"
