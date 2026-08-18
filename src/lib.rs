@@ -12,6 +12,7 @@ use std::sync::{Arc, Mutex};
 mod alexa;
 mod http;
 mod ip_info;
+mod logger;
 mod math;
 mod native_string;
 
@@ -41,6 +42,7 @@ impl SampPlugin for Plugin {
 
 initialize_plugin!(
     natives: [
+        Plugin::native_log,
         Plugin::native_alexa,
         Plugin::native_math,
         Plugin::native_ip_info,
@@ -64,7 +66,7 @@ initialize_plugin!(
         samp::plugin::enable_process_tick();
         let _ = fern::Dispatch::new()
             .format(|callback, message, record| {
-                callback.finish(format_args!("\t[Indian Ocean Roleplay] {}: {}", record.level().to_string().to_lowercase(), message))
+                callback.finish(format_args!("\t[IORP] {}: {}", record.level().to_string().to_lowercase(), message))
             })
              .chain(
                 fern::Dispatch::new()

@@ -265,25 +265,15 @@ impl super::Plugin {
         format: AmxString,
         size: usize,
     ) -> AmxResult<bool> {
-        // read unix timestamp
-        let unix_time = unix.to_string();
-        let format_time = format.to_string();
-        // Convert the timestamp string into an i64
-        let timestamp = unix_time.parse::<i64>().unwrap();
+        let date_time = DateTime::<Utc>::from_timestamp(unix as i64, 0)
+            .expect("invalid Unix timestamp")
+            .with_timezone(&Local);
 
-        // Create a NaiveDateTime from the timestamp
-        let naive = NaiveDateTime::from_timestamp(timestamp, 0);
-
-        // Create a normal DateTime from the NaiveDateTime
-        let date_time: DateTime<Utc> = DateTime::from_utc(naive, Utc);
-
-        let date_time_local: DateTime<Local> = DateTime::from(date_time);
-
-        // Format the date_time_local how you want
-        let new_date = date_time_local.format(&format_time);
+        let format = format.to_string();
+        let new_date = date_time.format(&format);
 
         let mut buffer = response.into_sized_buffer(size);
-        let _ = samp::cell::string::put_in_buffer(&mut buffer, &format!("{}", new_date));
+        let _ = samp::cell::string::put_in_buffer(&mut buffer, &new_date.to_string());
         Ok(true)
     }
 }
